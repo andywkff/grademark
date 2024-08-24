@@ -2,11 +2,6 @@ import { ITrade } from "./trade";
 import { isNumber, isObject } from "./utils";
 import { isArray } from "util";
 
-/**
- * Compute an equity curve for a series of trades.
- * 
- * @param trades The series of trades to compute equity curve for.
- */
 export function computeEquityCurve(startingCapital: number, trades: ITrade[]): number[] {
 
     if (!isNumber(startingCapital) || startingCapital <= 0) {

@@ -1,9 +1,5 @@
 const t = require('typy').default;
 
-//
-// Various shared utility functions.
-//
-
 export function isObject(v: any): boolean {
     return t(v).isObject && !isDate(v);
 }

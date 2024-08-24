@@ -2,22 +2,10 @@ import { ITrade } from "..";
 import { isNumber, isArray } from "./utils";
 import { Random } from "./random";
 
-/**
- * Options to the monteCarlo function.
- */
 export interface IMonteCarloOptions {
-    /**
-     * Starting seed for the random number generator.
-     */
     randomSeed?: number;
 }
 
-/**
- * Perform a monte carlo simulation on a set of trades.
- * Produces a set of X samples of Y trades from the full population.
- * X = numIterators.
- * Y = numSamples
- */
 export function monteCarlo(trades: ITrade[], numIterations: number, numSamples: number, options?: IMonteCarloOptions): ITrade[][] {
 
     if (!isArray(trades)) {
@@ -31,7 +19,7 @@ export function monteCarlo(trades: ITrade[], numIterations: number, numSamples: 
     if (!isNumber(numSamples) || numSamples < 1) {
         throw new Error("Expected 'numSamples' argument to 'monteCarlo' to be a number >= 1 that specifies the size of the sample to create for each iteration of the monte carlo simulation.");
     }
-    
+
     const numTrades = trades.length;
     if (numTrades === 0) {
         return [];

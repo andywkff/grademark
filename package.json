@@ -1,9 +1,4 @@
 {
-    "name": "grademark",
-    "version": "0.2.9",
-    "description": "Toolkit for algo trading and backtesting in JavaScript and TypeScript.",
-    "main": "build/index.js",
-    "types": "build/index.d.ts",
     "scripts": {
         "setup": "npm install --save=false data-forge",
         "c": "npm run clean",
@@ -20,25 +15,7 @@
         "test:watch": "mocha --watch --watch-extensions ts --opts ./src/test/mocha.opts",
         "prepublishOnly": "npm run clean && npm run test && npm run build"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/grademark/grademark.git"
-    },
-    "keywords": [
-        "trading",
-        "backtest",
-        "backtesting",
-        "quantitative",
-        "algorithmic",
-        "JavaScript",
-        "TypeScript"
-    ],
-    "author": "ashley@codecapers.com.au",
     "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/grademark/grademark/issues"
-    },
-    "homepage": "https://github.com/grademark/grademark#readme",
     "dependencies": {
         "CBuffer": "^2.2.0",
         "dayjs": "^1.8.36",
@@ -65,21 +42,5 @@
         "sugar": "^2.0.6",
         "ts-node": "7.0.1",
         "typescript": "3.1.1"
-    },
-    "nyc": {
-        "extension": [
-            ".ts"
-        ],
-        "exclude": [
-            "**/*.d.ts",
-            "src/test/**/*",
-            "build/**/*",
-            "docs/**/*",
-            "coverage/**/*"
-        ],
-        "reporter": [
-            "text-summary"
-        ],
-        "all": true
     }
 }

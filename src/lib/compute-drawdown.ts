@@ -2,11 +2,6 @@ import { ITrade } from "./trade";
 import { isNumber, isObject } from "./utils";
 import { isArray } from "util";
 
-/**
- * Compute drawdown for a series of trades.
- * 
- * @param trades The series of trades to compute drawdown for.
- */
 export function computeDrawdown(startingCapital: number, trades: ITrade[]): number[] {
 
     if (!isNumber(startingCapital) || startingCapital <= 0) {
@@ -29,7 +24,7 @@ export function computeDrawdown(startingCapital: number, trades: ITrade[]): numb
         }
         else {
             peakCapital = workingCapital;
-            workingDrawdown = 0; // Reset at the peak.
+            workingDrawdown = 0;
         }
         drawdown.push(workingDrawdown);
     }

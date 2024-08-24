@@ -4,9 +4,7 @@ import { IAnalysis } from "./analysis";
 import { isNumber, isArray } from "./utils";
 import { Series } from "data-forge";
 
-/**
- * Analyse a sequence of trades and compute their performance.
- */
+
 export function analyze(startingCapital: number, trades: ITrade[]): IAnalysis {
 
     if (!isNumber(startingCapital) || startingCapital <= 0) {
@@ -35,7 +33,6 @@ export function analyze(startingCapital: number, trades: ITrade[]): IAnalysis {
         if (trade.riskPct !== undefined) {
             maxRiskPct = Math.max(trade.riskPct, maxRiskPct || 0);
         }
-        
         workingCapital *= trade.growth;
         barCount += trade.holdingPeriod;
 
@@ -44,7 +41,7 @@ export function analyze(startingCapital: number, trades: ITrade[]): IAnalysis {
         }
         else {
             peakCapital = workingCapital;
-            workingDrawdown = 0; // Reset at the peak.
+            workingDrawdown = 0;
         }
 
         if (trade.profit > 0) {
@@ -68,7 +65,6 @@ export function analyze(startingCapital: number, trades: ITrade[]): IAnalysis {
     const rmultipleStdDev = rmultiples.length > 0
         ? math.std(rmultiples)
         : undefined;
-    
     let systemQuality: number | undefined;
     if (expectency !== undefined && rmultipleStdDev !== undefined) {
         if (rmultipleStdDev === 0) {
@@ -84,7 +80,6 @@ export function analyze(startingCapital: number, trades: ITrade[]): IAnalysis {
     if (absTotalLosses > 0) {
         profitFactor = totalProfits / absTotalLosses;
     }
-    
     const profit = workingCapital - startingCapital;
     const profitPct = (profit / startingCapital) * 100;
     const proportionWinning = totalTrades > 0 ? numWinningTrades / totalTrades : 0;
@@ -116,6 +111,5 @@ export function analyze(startingCapital: number, trades: ITrade[]): IAnalysis {
         averageLosingTrade: averageLosingTrade,
         expectedValue: (proportionWinning * averageWinningTrade) + (proportionLosing * averageLosingTrade),
     };
-
     return analysis;
 }
