@@ -45,7 +45,7 @@ interface OptimizationIterationResult {
 }
 
 function optimizationIteration<InputBarT extends IBar, IndicatorBarT extends InputBarT, ParameterT, IndexT>(
-    strategy: IStrategy<InputBarT, IndicatorBarT, ParameterT, IndexT>, 
+    strategy: IStrategy<InputBarT, IndicatorBarT, ParameterT, IndexT>,
     parameters: IParameterDef[],
     objectiveFn: ObjectiveFn,
     inputSeries: IDataFrame<IndexT, InputBarT>,
@@ -87,7 +87,6 @@ function* getNeighbours(coordinates: number[], parameters: IParameterDef[]): Ite
 }
 
 function extractParameterValues<ParameterT>(parameters: IParameterDef[], workingCoordinates: number[]): ParameterT {
-    
     const bestParameterValues: any = {};
 
     for (let parameterIndex = 0; parameterIndex < parameters.length; ++parameterIndex) {
@@ -153,7 +152,7 @@ function* getAllCoordinates(parameters: IParameterDef[]): IterableIterator<numbe
 }
 
 function hillClimbOptimization<InputBarT extends IBar, IndicatorBarT extends InputBarT, ParameterT, IndexT>(
-    strategy: IStrategy<InputBarT, IndicatorBarT, ParameterT, IndexT>, 
+    strategy: IStrategy<InputBarT, IndicatorBarT, ParameterT, IndexT>,
     parameters: IParameterDef[],
     objectiveFn: ObjectiveFn,
     inputSeries: IDataFrame<IndexT, InputBarT>,

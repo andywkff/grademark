@@ -31,3 +31,5 @@ export function isArray(v: any): v is Array<any> {
 export function isUndefined(v: any): boolean {
     return v === undefined;
 }
+
+export declare function assert(value: unknown): asserts value;

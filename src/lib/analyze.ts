@@ -1,9 +1,8 @@
-import { ITrade } from "./trade";
+import { Series } from "data-forge";
 import * as math from 'mathjs';
 import { IAnalysis } from "./analysis";
-import { isNumber, isArray } from "./utils";
-import { Series } from "data-forge";
-
+import { ITrade } from "./trade";
+import { isArray, isNumber } from "./utils";
 
 export function analyze(startingCapital: number, trades: ITrade[]): IAnalysis {
 

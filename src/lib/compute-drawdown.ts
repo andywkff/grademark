@@ -1,6 +1,5 @@
 import { ITrade } from "./trade";
-import { isNumber, isObject } from "./utils";
-import { isArray } from "util";
+import { isArray, isNumber } from "./utils";
 
 export function computeDrawdown(startingCapital: number, trades: ITrade[]): number[] {
 

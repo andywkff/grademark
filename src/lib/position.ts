@@ -1,5 +1,5 @@
-import { ITimestampedValue } from "./trade";
 import { TradeDirection } from "./strategy";
+import { ITimestampedValue } from "./trade";
 
 /**
  * Interface that defines an open position.

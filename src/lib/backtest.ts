@@ -1,9 +1,9 @@
-import { assert } from "chai";
 import { DataFrame, IDataFrame } from 'data-forge';
-import { IBar, IPosition, IStrategy } from "..";
-import { IEnterPositionOptions, TradeDirection } from "./strategy";
+import { IBar } from "./bar.js";
+import { IPosition } from "./position.js";
+import { IEnterPositionOptions, IStrategy, TradeDirection } from "./strategy";
 import { ITrade } from "./trade";
-import { isObject } from "./utils";
+import { assert, isObject } from "./utils";
 const CBuffer = require('CBuffer');
 
 function updatePosition(position: IPosition, bar: IBar): void {
@@ -23,12 +23,12 @@ function updatePosition(position: IPosition, bar: IBar): void {
 }
 
 function finalizePosition(position: IPosition, exitTime: Date, exitPrice: number, exitReason: string): ITrade {
-    const profit = position.direction === TradeDirection.Long 
+    const profit = position.direction === TradeDirection.Long
         ? exitPrice - position.entryPrice
         : position.entryPrice - exitPrice;
     let rmultiple;
     if (position.initialUnitRisk !== undefined) {
-        rmultiple = profit / position.initialUnitRisk; 
+        rmultiple = profit / position.initialUnitRisk;
     }
     return {
         direction: position.direction,
@@ -65,9 +65,9 @@ export interface IBacktestOptions {
 }
 
 export function backtest<InputBarT extends IBar, IndicatorBarT extends InputBarT, ParametersT, IndexT>(
-    strategy: IStrategy<InputBarT, IndicatorBarT, ParametersT, IndexT>, 
+    strategy: IStrategy<InputBarT, IndicatorBarT, ParametersT, IndexT>,
     inputSeries: IDataFrame<IndexT, InputBarT>,
-    options?: IBacktestOptions): 
+    options?: IBacktestOptions):
     ITrade[] {
 
     if (!isObject(strategy)) {
@@ -97,7 +97,7 @@ export function backtest<InputBarT extends IBar, IndicatorBarT extends InputBarT
 
     if (strategy.prepIndicators) {
         indicatorsSeries = strategy.prepIndicators({
-            parameters: strategyParameters, 
+            parameters: strategyParameters,
             inputSeries: inputSeries
         });
     }
@@ -111,15 +111,13 @@ export function backtest<InputBarT extends IBar, IndicatorBarT extends InputBarT
     let openPosition: IPosition | null = null;
     const lookbackBuffer = new CBuffer(lookbackPeriod);
     function enterPosition(options?: IEnterPositionOptions) {
-        assert(positionStatus === PositionStatus.None, "Can only enter a position when not already in one.");
-
+        assert(positionStatus === PositionStatus.None); //"Can only enter a position when not already in one."
         positionStatus = PositionStatus.Enter;
         positionDirection = options && options.direction || TradeDirection.Long;
         conditionalEntryPrice = options && options.entryPrice;
     }
     function exitPosition() {
-        assert(positionStatus === PositionStatus.Position, "Can only exit a position when we are in a position.");
-
+        assert(positionStatus === PositionStatus.Position); //"Can only exit a position when we are in a position."
         positionStatus = PositionStatus.Exit;
     }
     function closePosition(bar: InputBarT, exitPrice: number, exitReason: string) {
@@ -131,11 +129,9 @@ export function backtest<InputBarT extends IBar, IndicatorBarT extends InputBarT
 
     for (const bar of indicatorsSeries) {
         lookbackBuffer.push(bar);
-
         if (lookbackBuffer.length < lookbackPeriod) {
             continue;
         }
-
         switch (+positionStatus) { //TODO: + is a work around for TS switch stmt with enum.
             case PositionStatus.None:
                 strategy.entryRule(enterPosition, {
@@ -146,7 +142,7 @@ export function backtest<InputBarT extends IBar, IndicatorBarT extends InputBarT
                 break;
 
             case PositionStatus.Enter:
-                assert(openPosition === null, "Expected there to be no open position initialised yet!");
+                assert(openPosition === null); //"Expected there to be no open position initialised yet!"
 
                 if (conditionalEntryPrice !== undefined) {
                     if (positionDirection === TradeDirection.Long) {
@@ -252,7 +248,7 @@ export function backtest<InputBarT extends IBar, IndicatorBarT extends InputBarT
                 break;
 
             case PositionStatus.Position:
-                assert(openPosition !== null, "Expected open position to already be initialised!");
+                assert(openPosition !== null); "Expected open position to already be initialised!"
 
                 if (openPosition!.curStopPrice !== undefined) {
                     if (openPosition!.direction === TradeDirection.Long) {
@@ -333,7 +329,7 @@ export function backtest<InputBarT extends IBar, IndicatorBarT extends InputBarT
                 break;
 
             case PositionStatus.Exit:
-                assert(openPosition !== null, "Expected open position to already be initialised!");
+                assert(openPosition !== null); //"Expected open position to already be initialised!"
 
                 closePosition(bar, bar.open, "exit-rule");
                 break;

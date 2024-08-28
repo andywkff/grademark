@@ -1,6 +1,6 @@
-import { ITrade } from "..";
-import { isNumber, isArray } from "./utils";
 import { Random } from "./random";
+import { ITrade } from "./trade.js";
+import { isArray, isNumber } from "./utils";
 
 export interface IMonteCarloOptions {
     randomSeed?: number;
